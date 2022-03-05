@@ -1,14 +1,14 @@
 import { CompraDTO } from '../domain/DTO/compra.dto';
-import { Compra } from '../domain/models/Compra';
 import { ICompraService } from './Interfaces/ICompra.service';
-import { BaseResponse } from '../domain/DTO/base.response';
-import { badRequest, notfound, ok } from '../infra/helpers/http.helpers';
+import Queue from '../jobs/queue'
+import { ok } from '../infra/helpers/http.helpers';
 
 export class CompraService implements ICompraService {
     
     constructor (){}
 
     async finalizar(DTO: CompraDTO) {
-        return ok('Compra cadastrada com sucesso')
+        await Queue.add(DTO)
+        return ok('Estamos processando a sua compra. Em breve você recebera em email com mais informações')
     }
 }
